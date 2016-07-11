@@ -28,3 +28,5 @@ If you want to use exactly MingGW generator:
 cmake -G "MingGW Makefiles" ..
 ```
 
+After compilation be sure to move TerminusTTFWindows-4.40.1.ttf file from build/ to build/bin/.
+
