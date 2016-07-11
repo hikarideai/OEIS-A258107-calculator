@@ -37,7 +37,7 @@ void Application::initialize() {
 
     initText(detail_);
 
-    //Load last saved state
+    //Load saved state
     std::fstream save;
     save.open("stateSave", save.in);
 
@@ -82,7 +82,7 @@ void Application::loop() {
         errorLog.close();
     }
 
-    //When you want to escape, save number processing...
+    //When you want to quit, save application's state
     std::fstream save;
     save.open("stateSave", save.out);
 
@@ -98,12 +98,13 @@ void Application::handleEvents() {
     sf::Event event;
     while (window_.pollEvent(event)) {
         if (event.type == sf::Event::Closed)
-            exit_ = true;//window_.close();
+            exit_ = true;
     }
 }
 
 void Application::fulfillLogic() {
     passed_ = true;
+    //TODO: Make base bound more flexible
     for(char i = 3; i <= 6; i++) {
         if (passed_)
             toBase(i);
@@ -133,12 +134,12 @@ void Application::renderContent() {
         text_to_apply = "Executing " + to_string(spent_) + " seconds\n";
         text_to_apply += "Digits count: " + to_string(num.length()) + "\n";
         text_to_apply += "Base10: " + num;
+        //May slow down computing
         //text_to_apply += "Base3: " + toBaseString(3);
         //text_to_apply += "Base4: " + toBaseString(4);
         //text_to_apply += "Base5: " + toBaseString(5);
         //text_to_apply += "Base6: " + toBaseString(6);
         detail_.setString(text_to_apply.c_str());
-        //time_spent_.setString(text_to_apply.c_str());
 
         window_.clear(sf::Color(255, 255, 255, 255));
         window_.draw(detail_);
@@ -161,6 +162,9 @@ void Application::toBase(char base) {
 std::string Application::toBaseString(char base) {
     BigInteger temp = number_;
     std::string num;
+    //Idea
+    //base 2: 01 10 01 10
+    //base 3: 102 021 210
     int max = std::max(base * 4, 30-(30%base));
     for (int i = 0; i < max; i++) {
         if (temp == 0) break;
