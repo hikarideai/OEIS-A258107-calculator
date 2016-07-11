@@ -130,6 +130,7 @@ void Application::renderContent() {
         std::string text_to_apply;
         std::string num = number_.getNumber();
         num.push_back('\n');
+        //TODO: Make number clipping work
         //num.resize(15);
         text_to_apply = "Executing " + to_string(spent_) + " seconds\n";
         text_to_apply += "Digits count: " + to_string(num.length()) + "\n";
